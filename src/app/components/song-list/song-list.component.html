@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    <tr>
+      <th>S.N</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Singers</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let song of songLists; let i = index; trackBy: songTrackBy">
+      <td>{{ i }}</td>
+      <td width="100px" [title]="song.name">
+        <span class="name">
+          {{ song.name }}
+        </span>
+      </td>
+      <td>{{ song.type }}</td>
+      <td>{{ combineSingerList(song.singerList) }}</td>
+      <td>
+        <button (click)="viewDetail(song)">Detail</button>
+        <button (click)="editSongs(song.uri)">Edit</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

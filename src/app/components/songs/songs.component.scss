@@ -1,0 +1,11 @@
+.song-detail {
+  padding: 4px;
+  width: 300px;
+  border: 1px solid black;
+
+  .song-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
