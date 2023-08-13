@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import {BehaviorSubject, catchError, Observable, of, throwError} from 'rxjs'
 import { songsCollection } from '../mockData/songs'
 import {Song} from "../model/song"
+import {LocalStorageService} from "./local-storage.service";
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,10 @@ export class DataApiService {
   private readonly allSongs: Song[] = songsCollection
   private readonly songListSubject = new BehaviorSubject<Song[]>(this.allSongs)
   songs$ = this.songListSubject.asObservable()
-  constructor() {
-    const ls = localStorage.getItem('songsCollection')
-    if (ls) {
-      this.allSongs = JSON.parse(ls)
+  constructor( private localStorageService:LocalStorageService) {
+    const ls = localStorageService.getISongCollection()
+    if (ls.length >0) {
+      this.allSongs = ls
     }
   }
 
@@ -35,12 +36,9 @@ export class DataApiService {
    */
   public getSongsByName(songName: string) {
     const songs = this.allSongs.filter((song: Song) => song.name.includes(songName))
-
     return new Observable<Song[]>((observer) => {
-      setTimeout(() => {
         observer.next(songs)
         observer.complete()
-      }, 2000)
     })
   }
 
@@ -55,7 +53,7 @@ export class DataApiService {
   public addSong(song: Song): Observable<Song []> {
     this.allSongs.push(song)
     this.updateSongList(this.allSongs)
-    this.localStorageOperation()
+    this.localStorageService.setSongCollection(this.allSongs)
     return of(this.allSongs)
   }
 
@@ -64,7 +62,7 @@ export class DataApiService {
     if (songIndex !== -1) {
       this.allSongs[songIndex] = selectedSong
       this.updateSongList(this.allSongs)
-      this.localStorageOperation()
+      this.localStorageService.setSongCollection(this.allSongs)
       return of(this.allSongs[songIndex])
     } else {
       return throwError(() => new Error('Song with specified uri not found'))
@@ -81,7 +79,4 @@ export class DataApiService {
     this.songListSubject.next([...newList])
   }
 
-  private localStorageOperation() {
-        localStorage.setItem('songsCollection', JSON.stringify(this.allSongs))
-  }
 }

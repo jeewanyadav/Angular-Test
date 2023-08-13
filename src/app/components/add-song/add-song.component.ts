@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router"
 import {DataApiService} from "../../service/data-api.service"
 import {filter, Subject, takeUntil} from "rxjs"
 import {Song} from "../../model/song"
+import {LocalStorageService} from "../../service/local-storage.service";
 
 @Component({
   selector: 'app-add-song',
@@ -20,7 +21,8 @@ export class AddSongComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               private activatedRoute:ActivatedRoute,
               private dataApiService:DataApiService,
-              private router: Router) {}
+              private router: Router,
+              private localStorageService:LocalStorageService) {}
 
   ngOnInit() {
     this.songForm = this.fb.group({
@@ -37,8 +39,8 @@ export class AddSongComponent implements OnInit, OnDestroy {
       if (this.uri) {
         this.getSongByUri(uri['uri'])
       } else {
-        if (localStorage.getItem('unsavedSongData')) {
-          const ls = JSON.parse(localStorage.getItem('unsavedSongData') || '')
+        if (this.localStorageService.getUnSavedSong()) {
+          const ls = this.localStorageService.getUnSavedSong()
           if (ls.uri || ls.name || ls.singerList || ls.type) {
             const result = window.confirm('Your previous changes are unsaved. Would you like to proceed?')
             if (result) {
@@ -105,12 +107,12 @@ export class AddSongComponent implements OnInit, OnDestroy {
 
   // clear data after save
   clearUnsavedData() {
-    localStorage.removeItem('unsavedSongData')
+    this.localStorageService.clearUnSavedData()
   }
 
   // restore data after unexpected close while adding
   restoreUnsavedData() {
-    const unsavedData = localStorage.getItem('unsavedSongData')
+    const unsavedData = this.localStorageService.getUnSavedSong()
     if (unsavedData) {
       this.songForm.patchValue(JSON.parse(unsavedData))
     }
@@ -125,7 +127,7 @@ export class AddSongComponent implements OnInit, OnDestroy {
 
   // Save unsaved data in localStorage
   saveUnsavedData() {
-    localStorage.setItem('unsavedSongData', JSON.stringify(this.songForm.value))
+    this.localStorageService.setUnSavedSong( this.songForm.value)
   }
 
   ngOnDestroy() {
