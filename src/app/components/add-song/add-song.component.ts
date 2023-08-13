@@ -1,9 +1,9 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {DataApiService} from "../../service/data-api.service";
-import {filter, Subject, takeUntil} from "rxjs";
-import {Song} from "../../model/song";
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core'
+import {FormBuilder, FormGroup, Validators} from "@angular/forms"
+import {ActivatedRoute, Router} from "@angular/router"
+import {DataApiService} from "../../service/data-api.service"
+import {filter, Subject, takeUntil} from "rxjs"
+import {Song} from "../../model/song"
 
 @Component({
   selector: 'app-add-song',
@@ -11,10 +11,10 @@ import {Song} from "../../model/song";
   styleUrls: ['./add-song.component.scss']
 })
 export class AddSongComponent implements OnInit, OnDestroy {
-  songForm!: FormGroup;
-  availableTypes = ['pop', 'rock', 'metal'];
-  private unsubscribe$ = new Subject<void>();
-  uri!: string;
+  songForm!: FormGroup
+  availableTypes = ['pop', 'rock', 'metal']
+  private unsubscribe$ = new Subject<void>()
+  uri!: string
   isFormSubmit: boolean = false
 
   constructor(private fb: FormBuilder,
@@ -28,7 +28,7 @@ export class AddSongComponent implements OnInit, OnDestroy {
       uri:  ['', Validators.required],
       singerList: ['', Validators.required],
       type: [null, Validators.required],
-    });
+    })
     this.activatedRoute.params.pipe(
       takeUntil(this.unsubscribe$),
       filter((data) => data != null)
@@ -40,9 +40,9 @@ export class AddSongComponent implements OnInit, OnDestroy {
         if (localStorage.getItem('unsavedSongData')) {
           const ls = JSON.parse(localStorage.getItem('unsavedSongData') || '')
           if (ls.uri || ls.name || ls.singerList || ls.type) {
-            const result = window.confirm('Your previous changes are unsaved. Would you like to proceed?');
+            const result = window.confirm('Your previous changes are unsaved. Would you like to proceed?')
             if (result) {
-              this.restoreUnsavedData();
+              this.restoreUnsavedData()
             } else {
               this.clearUnsavedData()
             }
@@ -65,7 +65,7 @@ export class AddSongComponent implements OnInit, OnDestroy {
       })
     },error: err => {
         console.log(err)
-      }});
+      }})
   }
 
   // save or update Song
@@ -87,8 +87,8 @@ export class AddSongComponent implements OnInit, OnDestroy {
       this.songForm.patchValue({uri: this.songForm.value.name.replaceAll(' ', '')})
       if (this.songForm.valid) {
         this.isFormSubmit = false
-        const formData = this.songForm.value;
-        formData.singerList = formData.singerList.split(',').map((item: string) => item.trim());
+        const formData = this.songForm.value
+        formData.singerList = formData.singerList.split(',').map((item: string) => item.trim())
         this.dataApiService.addSong(formData).pipe(
           takeUntil(this.unsubscribe$),
           filter((data) => data != null)
@@ -105,31 +105,31 @@ export class AddSongComponent implements OnInit, OnDestroy {
 
   // clear data after save
   clearUnsavedData() {
-    localStorage.removeItem('unsavedSongData');
+    localStorage.removeItem('unsavedSongData')
   }
 
   // restore data after unexpected close while adding
   restoreUnsavedData() {
-    const unsavedData = localStorage.getItem('unsavedSongData');
+    const unsavedData = localStorage.getItem('unsavedSongData')
     if (unsavedData) {
-      this.songForm.patchValue(JSON.parse(unsavedData));
+      this.songForm.patchValue(JSON.parse(unsavedData))
     }
   }
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
-    if (this.songForm.dirty) {
-      this.saveUnsavedData();
-      $event.returnValue = true;
+    if (this.songForm.dirty && !this.uri) {
+      this.saveUnsavedData()
+      $event.returnValue = true
     }
   }
 
   // Save unsaved data in localStorage
   saveUnsavedData() {
-    localStorage.setItem('unsavedSongData', JSON.stringify(this.songForm.value));
+    localStorage.setItem('unsavedSongData', JSON.stringify(this.songForm.value))
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
   }
 }

@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { DataApiService } from 'src/app/service/data-api.service';
-import {Song} from "../../model/song";
-import {SongType} from "../../enum/SongType";
-import {filter, Subject, takeUntil} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core'
+import { DataApiService } from 'src/app/service/data-api.service'
+import {Song} from "../../model/song"
+import {SongType} from "../../enum/SongType"
+import {filter, Subject, takeUntil} from "rxjs"
 
 @Component({
   selector: 'app-songs',
@@ -10,8 +10,8 @@ import {filter, Subject, takeUntil} from "rxjs";
   styleUrls: ['./songs.component.scss'],
 })
 export class SongsComponent implements OnInit, OnDestroy {
-  songLists: Song[] = [];
-  searchText: string = '';
+  songLists: Song[] = []
+  searchText: string = ''
 
   selectedSong: Song = {
     uri: '',
@@ -20,7 +20,7 @@ export class SongsComponent implements OnInit, OnDestroy {
     singerList: []
   }
   metal: string = SongType.Metal
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new Subject<void>()
 
   constructor(private dataApiService: DataApiService) {}
 
@@ -28,7 +28,7 @@ export class SongsComponent implements OnInit, OnDestroy {
     this.dataApiService.songs$.pipe(
       takeUntil(this.unsubscribe$),
       filter((data) => data != null)
-    ).subscribe(data => {
+    ).subscribe((data: Song[]) => {
       this.songLists = [...data]
     })
     this.fetchSongs()
@@ -57,11 +57,11 @@ export class SongsComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$),
       filter((data) => data != null)
     ).subscribe({next:(res: Song[]) => {
-      this.songLists = res;
+      this.songLists = res
     },
     error: err => {
       console.log(err)
-    }});
+    }})
   }
 
   /**
@@ -70,14 +70,14 @@ export class SongsComponent implements OnInit, OnDestroy {
    * @param songId
    */
   showDetails(songId: string) {
-    this.selectedSong = this.songLists.find((song: Song) => song.uri === songId)!;
+    this.selectedSong = this.songLists.find((song: Song) => song.uri === songId)!
   }
 
   /**
    * Change the selected song into the metal
    */
   changeSongToMetal() {
-    this.selectedSong.type = SongType.Metal;
+    this.selectedSong.type = SongType.Metal
 
     // FIXME Weird behavior, type get updated in the songs list but it is not reflected in the table
     this.dataApiService.updateSong(this.selectedSong)
@@ -89,10 +89,10 @@ export class SongsComponent implements OnInit, OnDestroy {
       },
       error: err => {
         console.log(err)
-      }});
+      }})
   }
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
   }
 }

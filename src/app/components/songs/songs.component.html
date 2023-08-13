@@ -1,21 +1,31 @@
-<input
-  placeholder="Search Songs"
-  [(ngModel)]="searchText"
-  (ngModelChange)="searchSongs($event)"
-/>
-<button routerLink="/add" type="button">Add Song </button>
+<div class="search-bar">
+  <input
+    class="margin"
+    placeholder="Search Songs"
+    [(ngModel)]="searchText"
+    (ngModelChange)="searchSongs($event)"
+  />
+  <button routerLink="/add" class="add-button" type="button">Add Song</button>
+</div>
 <app-song-list
   [songLists]="songLists"
   (onSongViewDetailClicked)="showDetails($event)"
+  class="song-list"
 ></app-song-list>
-<div *ngIf="selectedSong.uri">
-
-  <h1>Songs Details</h1>
-
+<div *ngIf="selectedSong.uri" class="song-details">
+  <h1>Song Details</h1>
   <div class="song-detail">
     <div class="song-name">Name: {{ selectedSong.name }}</div>
     <div>Singers: {{ selectedSong.singerList.toString() }}</div>
-    <div>Type: {{ selectedSong.type }}</div>
-    <button *ngIf="selectedSong.type !== metal" (click)="changeSongToMetal()">Change to metal</button>
+    <div style="margin-bottom: 10px">Type: {{ selectedSong.type }}</div>
+    <button
+      *ngIf="selectedSong.type !== 'metal'"
+      class="add-button"
+      style="margin-right: 0 "
+      (click)="changeSongToMetal()"
+    >
+      Change to Metal
+    </button>
   </div>
 </div>
+

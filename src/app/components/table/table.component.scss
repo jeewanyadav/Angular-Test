@@ -1,0 +1,36 @@
+/* Add some spacing to the table */
+.table-container {
+  margin: 20px;
+}
+
+/* Style the table header */
+.table thead th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+/* Style the table rows */
+.table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Style the table cells */
+.table tbody td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+/* Style the action button */
+.action-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}

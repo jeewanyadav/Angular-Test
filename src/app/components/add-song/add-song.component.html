@@ -1,24 +1,36 @@
-<form [formGroup]="songForm" (ngSubmit)="onSubmit()">
-  <label for="name">Song Name:</label>
-  <input type="text" id="name"
-         formControlName="name"
-         [ngClass]="{ 'error-field': songForm.get('name')?.invalid && songForm.get('name')?.touched || isFormSubmit }">
-  <div *ngIf="songForm.controls['name'].invalid && (songForm.controls['name'].dirty || songForm.controls['name'].touched)" class="alert">
-    <div *ngIf="songForm.controls['name'].errors" class="error-field">
-      Invalid Name
+<div class="form-container">
+  <form [formGroup]="songForm" (ngSubmit)="onSubmit()">
+    <label for="name">Song Name:</label>
+    <input type="text" id="name"
+           formControlName="name"
+           [ngClass]="{ 'error-field': songForm.get('name')?.invalid && songForm.get('name')?.touched || isFormSubmit }">
+    <div *ngIf="songForm.controls['name'].invalid && (songForm.controls['name'].dirty || songForm.controls['name'].touched)" class="alert">
+      <div *ngIf="songForm.controls['name'].errors" class="error-field">
+        Invalid Name
+      </div>
     </div>
-  </div>
-  <label for="list">Singer (Comma-separated):</label>
-  <input type="text" id="list"
-         formControlName="singerList"
-         [ngClass]="{ 'error-field': songForm.get('singerList')?.invalid && songForm.get('singerList')?.touched || isFormSubmit }">
 
-  <label for="type">Type:</label>
-  <select id="type"
-          formControlName="type"
-          [ngClass]="{ 'error-field': songForm.get('type')?.invalid && songForm.get('type')?.touched || isFormSubmit }">
-    <option *ngFor="let type of availableTypes" [value]="type">{{ type }}</option>
-  </select>
-
-  <button type="submit">Submit</button>
-</form>
+    <label for="list">Singer (Comma-separated):</label>
+    <input type="text" id="list"
+           formControlName="singerList"
+           [ngClass]="{ 'error-field': songForm.get('singerList')?.invalid && songForm.get('singerList')?.touched || isFormSubmit }">
+    <div *ngIf="songForm.controls['singerList'].invalid && (songForm.controls['singerList'].dirty || songForm.controls['singerList'].touched)" class="alert">
+      <div *ngIf="songForm.controls['singerList'].errors" class="error-field">
+        Invalid Singers
+      </div>
+    </div>
+    <label for="type">Type:</label>
+    <select id="type"
+            formControlName="type"
+            style="min-width: 220px"
+            [ngClass]="{ 'error-field': songForm.get('type')?.invalid && songForm.get('type')?.touched || isFormSubmit }">
+      <option *ngFor="let type of availableTypes" [value]="type">{{ type }}</option>
+    </select>
+    <div *ngIf="songForm.controls['type'].invalid && (songForm.controls['type'].dirty || songForm.controls['type'].touched)" class="alert">
+      <div *ngIf="songForm.controls['type'].errors" class="error-field">
+        Invalid Type
+      </div>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import {Song} from "../../model/song";
-import {Router} from "@angular/router";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
+import {Song} from "../../model/song"
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-song-list',
@@ -10,11 +10,11 @@ import {Router} from "@angular/router";
 })
 export class SongListComponent {
   @Input()
-  songLists: Song[] = [];
+  songLists: Song[] = []
 
   @Output()
-  onSongViewDetailClicked: EventEmitter<string> = new EventEmitter<string>();
-
+  onSongViewDetailClicked: EventEmitter<string> = new EventEmitter<string>()
+  headers = ['S.N','Name', 'Type', 'Singers']
   constructor(private router: Router) {}
 
   /**
@@ -30,7 +30,7 @@ export class SongListComponent {
    * @returns
    */
   combineSingerList(valueArray: Array<any>) {
-    return valueArray.toString();
+    return valueArray.toString()
   }
 
   /**
@@ -39,7 +39,7 @@ export class SongListComponent {
    * @param song - Selected song
    */
   viewDetail(song: Song) {
-    this.onSongViewDetailClicked.emit(song.uri);
+    this.onSongViewDetailClicked.emit(song.uri)
   }
 
   /**
