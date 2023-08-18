@@ -1,17 +1,19 @@
 <div class="table-container">
-<table class="table">
-  <thead>
-  <tr>
-    <th *ngFor="let header of tableHeaders">{{ header }}</th>
-    <th *ngIf="isAction">Action</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let row of tableData; let i = index">
-    <td>{{i + 1}}</td><td>{{row.name}}</td><td>{{row.type}}</td><td>{{row.singerList}}</td>
-    <td *ngIf="isAction"><button (click)="detail(row)">Detail</button>
-    <button (click)="editSong(row.uri)">Edit</button></td>
-  </tr>
-  </tbody>
-</table>
+  <div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th *ngFor="let header of tableHeaders">{{ header }}</th>
+        <th *ngIf="isAction">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of tableData; let i = index; trackBy: songTrackBy">
+        <td>{{i + 1}}</td><td>{{row.name}}</td><td>{{row.type}}</td><td>{{combineSingerList(row.singerList)}}</td>
+        <td *ngIf="isAction"><button (click)="detail(row)">Detail</button>
+          <button (click)="editSong(row.uri)">Edit</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

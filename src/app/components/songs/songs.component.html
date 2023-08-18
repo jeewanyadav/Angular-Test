@@ -17,11 +17,10 @@
   <div class="song-detail">
     <div class="song-name">Name: {{ selectedSong.name }}</div>
     <div>Singers: {{ selectedSong.singerList.toString() }}</div>
-    <div style="margin-bottom: 10px">Type: {{ selectedSong.type }}</div>
+    <div class="buttom-margin">Type: {{ selectedSong.type }}</div>
     <button
       *ngIf="selectedSong.type !== 'metal'"
-      class="add-button"
-      style="margin-right: 0 "
+      class="change-button"
       (click)="changeSongToMetal()"
     >
       Change to Metal

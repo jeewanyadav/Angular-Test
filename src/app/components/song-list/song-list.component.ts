@@ -17,21 +17,6 @@ export class SongListComponent {
   headers = ['S.N','Name', 'Type', 'Singers']
   constructor(private router: Router) {}
 
-  /**
-   * Combine List of singers in the form of
-   * eg.
-   * [A] -> A
-   * [A,B] -> A and B
-   * [A,B,B] -> A, B and C
-   * [A,B,C,D] -> A, B , C and D
-   * [A,B,C,D,E,F] -> A, B, C, D, E and 1 Others
-   * [A,B,C,D,E,F,G] -> A, B, C, D, E and 2 Others
-   * @param valueArray
-   * @returns
-   */
-  combineSingerList(valueArray: Array<any>) {
-    return valueArray.toString()
-  }
 
   /**
    * Emit song id to parent
@@ -49,7 +34,4 @@ export class SongListComponent {
     this.router.navigate([`/edit/${uri}`])
   }
 
-  songTrackBy(index: number) {
-    return index
-  }
 }

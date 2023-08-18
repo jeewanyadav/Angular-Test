@@ -114,7 +114,7 @@ export class AddSongComponent implements OnInit, OnDestroy {
   restoreUnsavedData() {
     const unsavedData = this.localStorageService.getUnSavedSong()
     if (unsavedData) {
-      this.songForm.patchValue(JSON.parse(unsavedData))
+      this.songForm.patchValue(unsavedData)
     }
   }
   @HostListener('window:beforeunload', ['$event'])

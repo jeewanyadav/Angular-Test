@@ -11,11 +11,18 @@
   padding: 10px 15px;
   cursor: pointer;
   border-radius: 5px;
-  margin-right: 755px;
+  margin-right: 610px;
+}
+.change-button {
+  color: black;
+  border: 1px solid;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .add-button:hover {
-  background-color: #007bff;;
+  background-color: #007bff;
 }
 .song-list {
   margin-bottom: 20px;
@@ -33,17 +40,12 @@
   margin-top: 10px;
 }
 
-.change-button {
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
 .change-button:hover {
-  background-color: #1e7e34;
+  background-color: #007bff;
 }
 .margin {
   margin-left: 20px;
+}
+.buttom-margin {
+  margin-bottom: 10px
 }

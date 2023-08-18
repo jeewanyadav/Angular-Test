@@ -22,7 +22,7 @@
     <label for="type">Type:</label>
     <select id="type"
             formControlName="type"
-            style="min-width: 220px"
+            class="select-width"
             [ngClass]="{ 'error-field': songForm.get('type')?.invalid && songForm.get('type')?.touched || isFormSubmit }">
       <option *ngFor="let type of availableTypes" [value]="type">{{ type }}</option>
     </select>
