@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import { DataApiService } from 'src/app/service/data-api.service'
 import {Song} from "../../model/song"
 import {SongType} from "../../enum/SongType"
-import {filter, Subject, takeUntil} from "rxjs"
+import {filter, Subject, takeUntil, throttleTime} from "rxjs"
 
 @Component({
   selector: 'app-songs',
@@ -55,6 +55,7 @@ export class SongsComponent implements OnInit, OnDestroy {
   searchSongs(name: string) {
     this.dataApiService.getSongsByName(name).pipe(
       takeUntil(this.unsubscribe$),
+      throttleTime(300),
       filter((data) => data != null)
     ).subscribe({next:(res: Song[]) => {
       this.songLists = res
